@@ -36,7 +36,8 @@ export class CoffeeService {
     update(id: string, updateCoffeeDto: any) {
         const existingCoffee = this.findOne(id);
         if (existingCoffee) {
-            // update the existing entity
+            const updatedCoffee = Object.assign(existingCoffee, updateCoffeeDto);
+            return updatedCoffee;
         }
     }
 
@@ -45,6 +46,7 @@ export class CoffeeService {
         if (coffeeIndex >= 0) {
             this.coffees.splice(coffeeIndex, 1);
         }
+        throw new HttpException(`Coffee #${id} Deleted`, HttpStatus.FOUND);
     }
 
 }
