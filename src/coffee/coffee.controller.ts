@@ -1,41 +1,47 @@
+import { UpdateCoffeeDto } from './dto/update-coffee.dto';
+import { CreateCoffeeDto } from './dto/create-coffee.dto';
+import { CoffeeService } from './coffee.service';
 import { Controller, Get, Param, Body, Post, HttpCode, HttpStatus, Res, Patch, Delete, Query } from '@nestjs/common';
 
 @Controller('coffee')
 export class CoffeeController {
-    @Post('working')
-    findAll(@Res() response) {
-        return response.send('All coffee data is coming fine.')
+
+    constructor(private readonly coffeeService: CoffeeService){}
+
+    @Get()
+    findAll() {
+        return this.coffeeService.findAll();
     }
 
     @Get(':id')
     getData(@Param('id') id : string) {
-        return `Hello Bhai ${id}`
+       return this.coffeeService.findOne(id);
     }
 
     @Post()
-    // @HttpCode(HttpStatus.GONE)
-    saveData(@Body() body)
+    saveData(@Body() createCoffeeDto: CreateCoffeeDto)
     {
-        return body
+        return this.coffeeService.create(createCoffeeDto);
     }
 
     @Patch(':id')
-    updateData(@Param('id') id: string, @Body() body)
+    updateData(@Param('id') id: string, @Body() updateCoffeeDto: UpdateCoffeeDto)
     {
-        return `This record will be updated with ID ${id}`
+        return this.coffeeService.update(id, updateCoffeeDto);
     }
 
     @Delete(':id')
     removeData(@Param('id') id: string)
     {
-        return  `record with ID ${id} has been removed`
+        return this.coffeeService.remove(id);
     }
 
-    @Get()
-    findSpecific(@Query() paginationQuery)
-    {
-        const { limit, offset } = paginationQuery
-        const data = JSON.stringify(paginationQuery)
-        return `This will return all coffees. Limit: ${limit}, Offset ${offset} `
-    }
+    // @Get()
+    // findSpecific(@Query() paginationQuery)
+    // {
+    //     // const { limit, offset } = paginationQuery
+    //     // const data = JSON.stringify(paginationQuery)
+    //     return this.coffeeService.findAll();
+    //     // return `This will return all coffees. Limit: ${limit}, Offset ${offset} `
+    // }
 }
