@@ -2,8 +2,8 @@ import { IsString, IsInt } from "class-validator";
 
 
 export class CreateCoffeeDto {
-    @IsInt()
-    readonly id: number;
+    // @IsInt()
+    // readonly id: number;
     @IsString()
     readonly name: string;
 
