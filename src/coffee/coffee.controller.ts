@@ -1,3 +1,4 @@
+import { PaginationQueryDto } from './dto/pagination-query.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { CoffeeService } from './coffee.service';
@@ -9,8 +10,8 @@ export class CoffeeController {
     constructor(private readonly coffeeService: CoffeeService){}
 
     @Get()
-    findAll() {
-        return this.coffeeService.findAll();
+    findAll(@Query() paginationQuery: PaginationQueryDto) {
+        return this.coffeeService.findAll(paginationQuery);
     }
 
     @Get(':id')
