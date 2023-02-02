@@ -49,6 +49,7 @@ export class CoffeeService {
             createCoffeeDto.flavors.map(name => this.preloadFlavorByName(name)),
         );
         const newCoffee = this.coffeeRepository.create({...createCoffeeDto, flavors});
+        
         return this.coffeeRepository.save(newCoffee);
     }
 
@@ -66,6 +67,8 @@ export class CoffeeService {
             return existingCoffee;
         }
     }
+
+    
 
     async remove(id: string) {
         const coffee = await this.findOne(id);

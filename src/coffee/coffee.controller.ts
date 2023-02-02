@@ -19,6 +19,16 @@ export class CoffeeController {
        return this.coffeeService.findOne(id);
     }
 
+    @Get('recommend/:id')
+    async recommend(@Param('id') id : string) {
+        const coffeeFound = await this.coffeeService.findOne(id);
+        if (coffeeFound)
+        {
+            this.coffeeService.recommendCoffee(coffeeFound);
+            return `Recommending this coffee ${coffeeFound.name}`
+        }
+    }
+
     @Post()
     saveData(@Body() createCoffeeDto: CreateCoffeeDto)
     {
